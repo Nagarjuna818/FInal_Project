@@ -10,14 +10,14 @@ rate = engine.getProperty('rate')
 engine.setProperty('rate', rate - 50)
 
 # Load your trained model
-model = YOLO('/Users/ngujjula/Desktop/Final_Project/best.pt')
+model = YOLO('/Users/nagarjuna/FInal_Project/best.pt')
 
 def results(input_video):
     # Run the model on the video stream
     results = model(input_video, stream=True, vid_stride=5, imgsz=320)
     
     # Prepare output directory for saving detected frames
-    output_dir = '/Users/ngujjula/Desktop/Final_Project/output_frames/'
+    output_dir = '/Users/nagarjuna/FInal_Project/output_frames/'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -38,5 +38,6 @@ def results(input_video):
                     frame_filename = os.path.join(output_dir, 'detected_frame.jpg')
                     cv2.imwrite(frame_filename, frame)  # Save frame using OpenCV
 
-                    return True  # Stop processing after detecting a book
-    return False
+                    return True, frame  # Return the detection status and the frame
+    return False, None  # Return None if no book is detected
+
